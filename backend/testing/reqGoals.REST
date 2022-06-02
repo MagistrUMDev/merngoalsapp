@@ -1,18 +1,30 @@
+//GET REQUEST
+
 GET http://localhost:5000/api/goals
 Content-Type: application/json
 
 ###
+//DELETE REQUEST
 
 DELETE http://localhost:5000/api/goals/7ad7wadaw
 Content-Type: application/json
 
 ###
+//POST REQUEST
 
 POST http://localhost:5000/api/goals
 Content-Type: application/json
 
 {
-    "message": "HIIII"
+    "text": "HIIII"
 }
 ###
+//PUT REQUEST
+
+PUT http://localhost:5000/api/goals/62954dc0275a58b07c58d9df
+Content-Type: application/json
+
+{
+    "text": "1231dawdaw3"
+}
 

@@ -1,0 +1,28 @@
+//REGISTER REQUEST
+
+POST http://localhost:5000/api/users/
+Content-Type: application/json
+
+{
+    "name": "George312312",
+    "password": "1282832",
+    "email": "11guysketcdwaher1222@gmail.com"
+}
+
+###
+//LOGIN REQUEST
+
+POST http://localhost:5000/api/users/login/
+Content-Type: application/json
+
+{
+    "password": "1282832",
+    "email": "guysketcdwaher1222@gmail.com"
+}
+
+###
+//GET USER REQUEST
+
+GET http://localhost:5000/api/users/me/
+Content-Type: application/json
+
