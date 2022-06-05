@@ -16,18 +16,21 @@ function Dashboard() {
   );
 
   useEffect(() => {
+    console.log(user);
     if (!user) {
       navigate("/login");
     }
-    
-    dispatch(getGoals());
 
 
     return () => {
       dispatch(reset());
     };
-  }, [user, navigate, isError, message, dispatch]);
+  }, [user, navigate, isError, message]);
+  useEffect(() => {
+    dispatch(getGoals());
 
+    return () => dispatch(reset());
+  }, [dispatch]);
   if (isLoading) {
     return <Spinner />;
   }
