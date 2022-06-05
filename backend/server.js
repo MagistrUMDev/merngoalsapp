@@ -21,16 +21,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(goalRouter);
 app.use(userRouter);
 
-// // Serve frontend
-// if(process.env.NODE_ENV === 'production') {
-//   app.use(express.static(path.join(__dirname, '../frontend/build')))
+// Serve frontend
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')))
 
-//   app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')))
-// } else {
-//   app.get('/', (req, res) => {
-//     res.send('Please set to production')
-//   })
-// }
+  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')))
+} else {
+  app.get('/', (req, res) => {
+    res.send('Please set to production')
+  })
+}
 
 app.use(errorHandler);
 
