@@ -5,7 +5,7 @@ import GoalForm from "../components/GoalForm";
 import Spinner from "../components/Spinner";
 import { getGoals, reset } from "../features/goals/goalSlice";
 import GoalItem from '../components/GoalItem'
-
+import { toast } from "react-toastify";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ function Dashboard() {
     }
     
     dispatch(getGoals());
+
 
     return () => {
       dispatch(reset());
