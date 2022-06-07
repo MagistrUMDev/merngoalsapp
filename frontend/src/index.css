@@ -99,7 +99,30 @@ h3 {
   position: relative;
 }
 
-.goal .close {
+
+.goal.updating{
+  border-radius: 10px;
+  border: 2px solid red;
+  cursor: pointer;
+}
+
+
+.goal-buttons{
+  display: flex;
+  align-items: center;
+}
+
+.goal-buttons .edit {
+  position: absolute;
+  top: 10px;
+  right: 27px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+
+.goal-buttons .close {
   position: absolute;
   top: 10px;
   right: 15px;
@@ -112,6 +135,20 @@ h3 {
 .content {
   width: 70%;
   margin: 0 auto;
+}
+
+.form-button-updating{
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  cursor: pointer;
+  text-align: center;
+  appearance: button;
+  font-weight: 600;
+  margin-bottom: 10px;
+  border: none;
+  outline: none;
+  background: none;
 }
 
 .form-group {
@@ -160,9 +197,28 @@ h3 {
   color: #000;
 }
 
-.btn-block {
+.btn-block, .btn-block-update {
   width: 100%;
   margin-bottom: 20px;
+}
+
+.btn-block-update{
+  border: 4px solid goldenrod;
+  animation: changingColor 2s infinite;
+}
+
+@keyframes changingColor {
+  0% {
+    border: 4px solid goldenrod;
+  }
+
+  50% {
+    border: 4px solid violet;
+  }
+
+  100% {
+    border: 4px solid goldenrod;
+  }
 }
 
 .btn:hover {

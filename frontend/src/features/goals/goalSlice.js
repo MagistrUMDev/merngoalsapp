@@ -7,6 +7,8 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: "",
+  isUpdating: false,
+  id: "",
 };
 
 // Create new goal
@@ -14,7 +16,7 @@ export const createGoal = createAsyncThunk(
   "goals/create",
   async (goalData, thunkAPI) => {
     try {
-      if(goalData === ""){
+      if (goalData === "") {
       }
       const token = thunkAPI.getState().auth.user.token;
       return await goalService.createGoal(goalData, token);
@@ -49,22 +51,42 @@ export const getGoals = createAsyncThunk(
   }
 );
 
+//Update Goal
+export const updateGoal = createAsyncThunk(
+  "goals/update",
+  async (text, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      const id = thunkAPI.getState().goals.id.payload;
+      return await goalService.updateGoal(id, text, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 //Delete Goal
 export const deleteGoal = createAsyncThunk(
   "goals/delete",
   async (id, thunkAPI) => {
-      try {
-        const token = thunkAPI.getState().auth.user.token;
-        return await goalService.deleteGoal(id, token);
-      } catch (error) {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        return thunkAPI.rejectWithValue(message);
-      }}
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await goalService.deleteGoal(id, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
 );
 
 export const goalSlice = createSlice({
@@ -72,6 +94,14 @@ export const goalSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => initialState,
+    update: (state) => {
+      state.isUpdating === true
+        ? (state.isUpdating = false)
+        : (state.isUpdating = true);
+    },
+    updateId: (state, id) => {
+      state.id = id;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -82,13 +112,13 @@ export const goalSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.goals.push(action.payload);
-        toast.success("Item was succesfully added!")
+        toast.success("Item was succesfully added!");
       })
       .addCase(createGoal.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        toast.error("Something went wrong...")
+        toast.error("Something went wrong...");
       })
       .addCase(getGoals.pending, (state) => {
         state.isLoading = true;
@@ -112,16 +142,36 @@ export const goalSlice = createSlice({
         state.goals = state.goals.filter(
           (goal) => goal._id !== action.payload.id
         );
-        toast.success("Item was succesfully deleted!")
+        toast.success("Item was succesfully deleted!");
       })
       .addCase(deleteGoal.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        toast.error("Something went wrong...")
+        toast.error("Something went wrong...");
+      })
+      .addCase(updateGoal.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateGoal.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isUpdating = false;
+        state.id = "";
+        toast.success("Item was succesfully updated!")
+      })
+      .addCase(updateGoal.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isUpdating = false;
+        state.id = "";
+        state.message = action.payload;
+        toast.error("Something went wrong...");
       });
   },
 });
 
 export const { reset } = goalSlice.actions;
+export const { update } = goalSlice.actions;
+export const { updateId } = goalSlice.actions;
 export default goalSlice.reducer;

@@ -5,13 +5,12 @@ import GoalForm from "../components/GoalForm";
 import Spinner from "../components/Spinner";
 import { getGoals, reset } from "../features/goals/goalSlice";
 import GoalItem from '../components/GoalItem'
-import { toast } from "react-toastify";
 
 function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { goals, isLoading, isError, message } = useSelector(
+  const { goals, isLoading, isError, message, isUpdating } = useSelector(
     (state) => state.goals
   );
 
@@ -47,7 +46,7 @@ function Dashboard() {
         {goals.length > 0 ? (
           <div className="goals">
             {goals.map((goal) => (
-              <GoalItem key={goal._id} goal={goal} />
+              <GoalItem value={goal._id} goal={goal} key = {goal._id}/>
             ))}
           </div>
         ) : (
