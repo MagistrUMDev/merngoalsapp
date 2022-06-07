@@ -11,7 +11,7 @@ function GoalForm() {
     e.preventDefault();
     if (isUpdating) {
       dispatch(updateGoal({text}));
-      location.reload()
+      window.location.reload()
     } else {
       dispatch(createGoal({ text }));
     }

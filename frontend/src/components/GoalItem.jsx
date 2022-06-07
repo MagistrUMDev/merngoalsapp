@@ -11,7 +11,7 @@ function GoalItem({ goal }) {
   const { isUpdating } = useSelector((state) => state.goals);
   return (
     <div
-      
+      className={isUpdating ? "goal updating" : "goal"}
       onClick={(e) => {
         if (isUpdating) {
           dispatch(update());
