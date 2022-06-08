@@ -1,4 +1,4 @@
-Usage
+# Usage
 Create your own .env file, don't forget to add your MONGO_URI
 
 Install dependencies
