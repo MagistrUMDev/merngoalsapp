@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createGoal } from "../features/goals/goalSlice";
 import { updateGoal } from "../features/goals/goalSlice";
+import { toast } from "react-toastify";
 
 function GoalForm() {
   const dispatch = useDispatch();
@@ -10,10 +11,18 @@ function GoalForm() {
   const onSubmit = (e) => {
     e.preventDefault();
     if (isUpdating) {
-      dispatch(updateGoal({text}));
-      window.location.reload()
+      if (/\S/.test(text)) {
+        dispatch(updateGoal({ text }));
+        window.location.reload();
+      } else {
+        toast.warning("Field must be non-empty!");
+      }
     } else {
-      dispatch(createGoal({ text }));
+      if (/\S/.test(text)) {
+        dispatch(createGoal({ text }));
+      } else {
+        toast.warning("Field must be non-empty!");
+      }
     }
     setText("");
   };

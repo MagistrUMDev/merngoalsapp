@@ -11,7 +11,7 @@ function GoalItem({ goal }) {
   const { isUpdating } = useSelector((state) => state.goals);
   return (
     <div
-      className={isUpdating ? "goal updating" : "goal"}
+      className="goal"
       onClick={(e) => {
         if (isUpdating) {
           dispatch(update());
@@ -19,14 +19,6 @@ function GoalItem({ goal }) {
         }
       }}
     >
-      {isUpdating ? (
-        <>
-          <div className="form updating-block">
-            <button className="form-button-updating">Cancel Updating</button>
-          </div>
-        </>
-      ) : (
-        <>
           <div>{new Date(goal.createdAt).toLocaleString("en-US")}</div>
           <h2>{goal.text}</h2>
           <div className="goal-buttons">
@@ -46,8 +38,6 @@ function GoalItem({ goal }) {
               <FaEdit />
             </button>
           </div>
-        </>
-      )}
     </div>
   );
 }

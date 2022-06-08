@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaUser } from "react-icons/fa";
 import { register, reset } from "../features/auth/authSlice";
-import Spinner from '../components/Spinner';
+import Spinner from "../components/Spinner";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -31,7 +31,7 @@ function Register() {
     if (isSuccess || user) {
       navigate("/");
     }
-    
+
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
@@ -43,22 +43,28 @@ function Register() {
   };
 
   const onSubmit = (e) => {
+    const re = /\S+@\S+\.\S+/;
     e.preventDefault();
-
-    if (password !== password2) {
-      toast.error("Passwords do not match");
+    if (
+      re.test(email)
+    ) {
+      if (password !== password2) {
+        toast.error("Passwords do not match");
+      } else {
+        const userData = {
+          name,
+          email,
+          password,
+        };
+        dispatch(register(userData));
+      }
     } else {
-      const userData = {
-        name,
-        email,
-        password,
-      };
-      dispatch(register(userData));
+      toast.warning("Incorrect email!");
     }
   };
-  
-  if(isLoading){
-    return <Spinner />
+
+  if (isLoading) {
+    return <Spinner />;
   }
 
   return (

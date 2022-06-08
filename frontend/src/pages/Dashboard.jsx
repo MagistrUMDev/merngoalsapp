@@ -3,8 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import GoalForm from "../components/GoalForm";
 import Spinner from "../components/Spinner";
+import CancelUpdatingButton from "../components/CancelUpdatingButton";
 import { getGoals, reset } from "../features/goals/goalSlice";
-import GoalItem from '../components/GoalItem'
+import GoalItem from "../components/GoalItem";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -14,19 +15,22 @@ function Dashboard() {
     (state) => state.goals
   );
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
+  useEffect(
+    (e) => {
+      if (!user) {
+        navigate("/login");
+      }
 
-
-    return () => {
-      dispatch(reset());
-    };
-  }, [user, navigate, isError, message]);
+      return () => {
+        dispatch(reset());
+      };
+    },
+    [user, navigate, isError, message]
+  );
   useEffect(() => {
     dispatch(getGoals());
 
+  
     return () => dispatch(reset());
   }, [dispatch]);
   if (isLoading) {
@@ -43,14 +47,18 @@ function Dashboard() {
       <GoalForm />
 
       <section className="content">
-        {goals.length > 0 ? (
+        {isUpdating ? (
+          <CancelUpdatingButton />
+        ) : null}
+        {goals.length > 0 && !isUpdating ? (
           <div className="goals">
             {goals.map((goal) => (
-              <GoalItem value={goal._id} goal={goal} key = {goal._id}/>
+              <GoalItem value={goal._id} goal={goal} key={goal._id} />
             ))}
           </div>
         ) : (
-          <h3>You have not set any goals</h3>
+          !isUpdating ?
+          <h3>You have not set any goals</h3> : null
         )}
       </section>
     </>
